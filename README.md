@@ -45,7 +45,14 @@ lotus net peers
 
 1.3如何主动连接其他peer
 
-`lotus net connect <peer>`  (peer格式参考：/ip4/58.144.223.197/tcp/46121/12D3KooWSud8NV8LDTi2HD32CLVrN8um57YyCSDxYFyZ58XBwu8X)
+`lotus net connect <peer>`  
+
+peer格式参考：
+
+
+/ip4/58.144.223.197/tcp/46121/12D3KooWSud8NV8LDTi2HD32CLVrN8um57YyCSDxYFyZ58XBwu8X
+
+
 
 1.4如何查看本地内存池是否拥塞？
 ~~~bash
@@ -93,6 +100,7 @@ lotus wallet set-default <钱包地址>
 ~~~
 
 2.6 如何转账  
+
 从默认地址发送：`lotus send  <目的钱包地址>  <转账金额>`
 
 2.7 如何从多签地址转账？  
@@ -109,10 +117,9 @@ lotus wallet delete <钱包地址> #实际这钱包是一直存在，只是从�
 
 
 3.1 如何查看lotus miner 运行状态？
-
-
+~~~bash
     lotus-miner info
-    
+~~~    
     
 3.2 如何查看所有扇区（sectors）
 
