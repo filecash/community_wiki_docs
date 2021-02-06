@@ -3,11 +3,11 @@
 
 ## 一、基础篇
 
-
 1. Filecash主网什么时候上线的？
 
 
 2. Filecash 主网当前支持哪些大小扇区
+
 
 3.Filecash 当前运行的版本是哪个
 
@@ -20,13 +20,19 @@
 ## 二、部署篇
 
 
-## 三、运行维护篇
+1.社区部署方法: https://github.com/filecash/lotus_builder
+
+
+2. 志愿者提供键部署脚本 https://gitee.com/imbacloud/filecash-deploy
+
+
+## 三、运行维护篇 
 
 
 1.节点检查及维护
 
 
-1.1如何查看节点运行情况？
+1.1 如何查看节点运行情况？
 
 
 lotus sync wait 查看state 直到complete状态 
