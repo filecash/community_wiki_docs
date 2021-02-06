@@ -21,6 +21,10 @@
 
 3. Filecash 当前运行的版本是哪个？
 
+
+   https://github.com/filecash/filecash_announcement
+
+
 4. Filecash 区块浏览器有哪些？
 
 |  区块链浏览器   | 地址  |
@@ -97,6 +101,9 @@ lotus mpool pending --local
 
 
   lotus daemon --import-snapshot=chain-xxx.car 或 lotus daemon --import-chain=指定文件
+  
+  
+  https://docs.file.cash/snapshots/
   
   
 2.钱包维护
