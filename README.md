@@ -175,6 +175,6 @@ lotus mpool pending --local
 3.11 如何查看某个扇区在哪些存储位置
 
 
-    lotus-mienr storage find <扇区编号>
+    lotus-miner storage find <扇区编号>
     
     
