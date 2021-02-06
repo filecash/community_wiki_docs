@@ -11,12 +11,13 @@
 2. Filecash 主网当前支持哪些大小扇区？推荐的硬件配制有那些？封装效率如何？
 
 
-Filecash 主网支持4GB和16GB扇区
+   Filecash 主网支持4GB和16GB扇区
+   
+   
+   硬件配置： 12核以上CPU 128G 以上内存， 2T 以上NVME ，2080TI，3080,3090显卡
 
 
-硬件配置： 12核以上CPU 128G 以上内存， 2T 以上NVME ，2080TI，3080,3090显卡
-
-P1：约5小时，P2：约6分钟，C2约28分钟。
+   P1约5小时，P2约6分钟，C2约28分钟。
 
 3. Filecash 当前运行的版本是哪个？
 
@@ -30,6 +31,25 @@ P1：约5小时，P2：约6分钟，C2约28分钟。
 
 5. Filecash 当前上了哪些交易所？
 
+|  区块链浏览器   | 地址  |
+|  ----  | ----  |
+| 芝麻开门（gate）|  https://www.gateio.tv | 
+  
+6. Filecash如何提交提案
+
+   https://github.com/filecash/FICIPs
+
+7. Filecash路线图
+
+   https://app.instagantt.com/shared/s/ZOdqrgBwE7zfgrBGkxA7/latest
+
+
+8. 如何参与Filecash社区
+
+   Slack: https://join.slack.com/t/filecashworkspace/shared_invite/zt-kca9ippi-pUniHv0K_zzneG9PxMz2Ow
+   Telegram: https://t.me/FilecashGlobal
+   
+   
 ## 二、部署篇
 
 1. 社区编译方法: https://github.com/filecash/lotus_builder
