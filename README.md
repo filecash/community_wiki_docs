@@ -164,7 +164,7 @@ lotus mpool pending --local
 3.7 如何删除一个无效扇区
 
 
-    lotus-miner sectors remove --really-do-it <扇区编号> P1 阶段失败的扇区可以删除，其他请谨慎
+    lotus-miner sectors remove --really-do-it <扇区编号> P1 阶段失败的扇区可以删除，【！谨慎操作】
     
     
 3.8 如何查看window post 失败的扇区
@@ -176,7 +176,7 @@ lotus mpool pending --local
 3.9 如何销毁window post 失败扇区
 
 
-    lotus-shed sectors terminate <fault 扇区1> <fault 扇区2> <fault 扇区3>   备注：一次可以销毁多个 
+    lotus-shed sectors terminate --really-do-it <fault 扇区1> <fault 扇区2> <fault 扇区3>   备注：一次可以销毁多个 【！谨慎操作】
     
     
 3.10 如何查看miner和worker的存储
