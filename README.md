@@ -29,9 +29,9 @@
 
 |  区块链浏览器   | 地址  |
 |  ----  | ----  |
-| ![tokenview浏览器](img/tokenview.png)  | https://fic.tokenview.com/ |
-| ![filscout浏览器](img/filscout.png)   | https://fic.filscout.io/ |
-| ![ficvue浏览器](img/filscout.png)   | https://www.ficvue.com/ |
+| ![tokenview](img/tokenview.png)  | https://fic.tokenview.com/ |
+| ![filscout](img/filscout.png)   | https://fic.filscout.io/ |
+| ![ficvue](img/filscout.png)   | https://www.ficvue.com/ |
 
 5. Filecash 当前上了哪些交易所？
 
