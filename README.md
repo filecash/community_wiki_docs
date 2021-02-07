@@ -35,7 +35,7 @@
 
 5. Filecash 当前上了哪些交易所？
 
-|  区块链浏览器   | 地址  |
+|  交易所   | 地址  |
 |  ----  | ----  |
 | 芝麻开门（gate）|  https://www.gateio.tv | 
   
@@ -111,7 +111,7 @@ lotus mpool pending --local
 
 2.1 如何创建钱包
 
-bls 格式（推荐使用）：`lotus wallet new bsl`  
+bls 格式（推荐使用）：`lotus wallet new bls`  
 secp256k1格式（默认）： `lotus wallet new`
 
 2.2.如何备份钱包？
