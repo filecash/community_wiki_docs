@@ -8,7 +8,7 @@
    Filecash主网在高度58270(北京时间 2020年11月18日15:00)正式启动
 
 
-2. Filecash 主网当前支持哪些大小扇区？推荐的硬件配制有那些？封装效率如何？
+2. Filecash 主网当前支持哪些大小扇区？
 
 
    Filecash 主网支持4GB和16GB扇区
@@ -63,6 +63,35 @@
 
    Slack: https://join.slack.com/t/filecashworkspace/shared_invite/zt-kca9ippi-pUniHv0K_zzneG9PxMz2Ow
    Telegram: https://t.me/FilecashGlobal
+   
+   
+ 9. Filecash 挖矿CPU，内存，GPU显存，硬盘资源消耗情况如何？
+ 
+    16GB扇区：
+    
+    
+    1个P1需要32G内存，1核心CPU，112G NVME/SSD空间，如果P1P2在一台机器上完成需要165G
+    
+    
+    1个P2需要79G内存，可以不占用CPU，6.3G显存，165G NVME/SSD
+    
+    
+    1个C2需要69G内存，部分时段全部CPU核心，8.4G显存，不占用硬盘空间。
+    
+    
+    注意：如果P1 ，P2 不在一台机器上，P2机器需要GETP1数据到P2 机器
+    
+    
+          C2不会到P2 机器上get数据。
+         
+    bench参考：3800X+128+2080ti 11G+SATA 8T
+      
+      
+      |  资源名称   | P1 | P2 | C2 |
+      |  ----  | ----  |----  | ----  |  
+      |内存消耗	| 33G	| 79G	| 69G |
+      |显存消耗	| 0G	| 6.3G |	8.4G |
+      | 用时	|4h40m | 20m58s| 	22m23s|
    
    
 ## 二、部署篇
