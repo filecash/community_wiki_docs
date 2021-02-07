@@ -146,7 +146,7 @@ lotus mpool pending --local
   https://docs.file.cash/snapshots/
   
   
-2.钱包维护
+### 2.钱包维护
 
 
 2.1 如何创建钱包
@@ -189,7 +189,7 @@ lotus msig propose --from=你的钱包地址  <多签地址> <目的钱包地址
 lotus wallet delete <钱包地址> #实际这钱包是一直存在，只是从你的lotus 移除而已
 ~~~
      
-3. lotus miner 相关
+### 3. lotus miner 相关
 
 
 3.1 如何查看lotus miner 运行状态？
