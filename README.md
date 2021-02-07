@@ -38,6 +38,17 @@
 |  交易所   | 地址  |
 |  ----  | ----  |
 | 芝麻开门（gate）|  https://www.gateio.tv | 
+| MXC| http://www.coinmxc.com/ | 
+| QB| https://www.qb.com | 
+| MIXPAY| https://mixpay.com/ |
+| Citex|  | 
+| BiKi|  | 
+| HOTBIT|  | 
+| HBTC|  | 
+| LBank|  | 
+| bitmart|  | 
+| HashKeyHub|  |     
+  
   
 6. Filecash如何提交提案
 
@@ -215,5 +226,19 @@ lotus wallet delete <钱包地址> #实际这钱包是一直存在，只是从�
 
 
     lotus-miner storage find <扇区编号>
+    
+3.12 为什么我会掉算力？
+
+   Filecash Filecash网络每天会审核矿工的存储证明，矿工的每个扇区每天需要提交一次window post
+   
+   
+   每个矿工的window post 时间是固定的，在指定时间内（30分钟）必须及时提交到链上，如果失败，就会掉算力。
+   
+   
+   每个partetion的每个deadline里面的扇区一起提交一次。完成后又开始下一个窗口，一直轮巡。
+   
+   
+   
+3.13 Filecash运维中哪些错误不能犯？
     
     
