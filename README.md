@@ -268,6 +268,52 @@ lotus wallet delete <钱包地址> #实际这钱包是一直存在，只是从�
    
    
    
-3.13 Filecash运维中哪些错误不能犯？
+### 4. Filecash运维中哪些坑不能踩
+
+4.1 我可以随便重启服务器、lotus和miner吗？
+
+   
+   重启服务器、lotus以及miner必须经过周密计划，如确实需要，请注意以下事项：
+   
+   
+   * lotus-miner window post 期间禁止重启服务器、lotus-miner及lotus daemon
+   
+   
+   * lotus-miner及worker 还有未完成的工作最好不要重启服务器、lotus及lotus daemon
+   
+   
+   * lotus-worker也尽量不要随便重启，集群中miner及各worker相互关联影响。
+   
+   
+   4.2 我可以随便删除一些文件吗？
+   
+   
+   * 禁止删除LOTUS_PATH（默认~/.lotus）中的任何文件，如 token config.toml keystore目录
+   
+   
+   * 禁止删除LOTUS_MINER_PATH(默认~/.lotusminer) 中的任何文件
+   
+   
+   * 禁止删除lotus-miner中任何落盘目录（如删除你可能失去所有算力），具体查看storage.json
+   
+   
+   * miner和worker 中unsealed,sealed ,cache 中的相关扇区文件只有当扇区已经为proving 
+   
+   
+      状态，filnalizedsectors 异常造成垃圾或者扇区已经不存在是方可删除。
+   
+   
+   * 对已经上链的扇区禁止使用lotus-miner sectors remove 删除。
+   
+   
+   * 请不要随意删除修改proof文件，因为这样可能引起window post 失败
+   
+   
+      扇区验证失败，不爆块等问题。
+   
+   
+   
+
+
     
     
