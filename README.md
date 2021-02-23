@@ -1,4 +1,4 @@
-# Filecash FAQ\[Filecash常见问题回答\]
+# Filecash FAQ \[Filecash常见问题回答\]
 
 ## 一、基础篇
 
