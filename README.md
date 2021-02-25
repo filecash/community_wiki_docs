@@ -79,10 +79,35 @@
     1个C2需要69G内存，部分时段全部CPU核心，8.4G显存，不占用硬盘空间。
     
     
-    注意：如果P1 ，P2 不在一台机器上，P2机器需要GETP1数据到P2 机器
-    
+    注意：如果P1 ，P2 不在一台机器上，P2机器需要GET P1数据到P2 机器
+      
     
           C2不会到P2 机器上get数据。
+          
+          
+     NVME硬盘空间占用：1个扇区全流程预留：
+     
+     
+     unsealed 16G*1
+     
+     
+      sealed   16G*1
+
+
+      cache/tree-d      32G*1=32G
+      
+      
+      cache/data-layer  16G*5=80G
+      
+      
+      cache/tree-c      16G*4=64G
+      
+      
+      cache/tree-r-last 4.6G*4=18.4G
+      
+      
+      total:16+16+32+80+64+18.4=226.4G
+      
          
     bench参考：3800X+128+2080ti 11G+SATA 8T
       
