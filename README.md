@@ -35,20 +35,20 @@
 
 5. Filecash 当前上了哪些交易所？
 
-|  交易所   | 地址  |
-|  ----  | ----  |
-| 芝麻开门（gate）|  https://www.gateio.tv | 
-| MXC| http://www.coinmxc.com/ | 
-| QB| https://www.qb.com | 
-| MIXPAY| https://mixpay.com/ |
-| Citex|https://trade.citex.me/trade/FIC_USDT  | 
-| BiKi| http://bikil.com/  | 
-| HOTBIT|https://www.hotbit.pro/exchange?symbol=FILECASH_USDT  | 
-| HBTC| https://www.bit-e.com/  | 
-| LBank| https://www.lbank.me | 
-| bitmart|https://www.bitmart.news/trade/cn?symbol=FIC_BTC&layout=basic  | 
-| HashKeyHub| https://hub.hashkey.com/ |     
-  
+|  交易所   | 官网  | 交易对传送门  |
+|  ----  | ----  | ---- |
+| 芝麻开门（gate）|  https://www.gateio.tv |  [FIC/USDT](https://www.gateio.tv/trade/FIC_USDT)|
+| MXC| http://www.coinmxc.com/ | [FIC/USDT](https://www.mxc.me/trade/easy#FIC_USDT) |
+| QB| https://www.qb.com | |
+| MIXPAY| https://mixpay.com/ | |
+| Citex|https://trade.citex.me/  | [FIC/USDT](https://trade.citex.me/trade/FIC_USDT) |
+| BiKi| http://bikil.com/  |   |
+| HOTBIT|https://www.hotbit.pro/  |  [FIC/USDT](https://www.hotbit.pro/exchange?symbol=FILECASH_USDT)|
+| HBTC| https://www.bit-e.com/  | |
+| LBank| https://www.lbank.me |  |
+| bitmart|https://www.bitmart.news/  | [FIC/BTC](https://www.bitmart.news/trade/cn?symbol=FIC_BTC&layout=basic)|
+| HashKeyHub| https://hub.hashkey.com/ | |
+| huobi| 
   
 6. Filecash如何提交提案
 
@@ -65,58 +65,30 @@
    Telegram: https://t.me/FilecashGlobal
    
    
- 9. Filecash 挖矿CPU，内存，GPU显存，硬盘资源消耗情况如何？
- 
-    16GB扇区：
-    
-    
-    1个P1需要32G内存，1核心CPU，112G NVME/SSD空间，如果P1P2在一台机器上完成需要165G
-    
-    
-    1个P2需要79G内存，可以不占用CPU，6.3G显存，165G NVME/SSD
-    
-    
-    1个C2需要69G内存，部分时段全部CPU核心，8.4G显存，不占用硬盘空间。
-    
-    
-    注意：如果P1 ，P2 不在一台机器上，P2机器需要GET P1数据到P2 机器
-      
-    
-          C2不会到P2 机器上get数据。
-          
-          
-     NVME硬盘空间占用：1个扇区全流程预留：
-     
-     
-     unsealed 16G*1
-     
-     
-      sealed   16G*1
+9. Filecash 挖矿CPU，内存，GPU显存，硬盘资源消耗情况如何？  
+**16GB扇区：**  
+1个P1需要32G内存，1核心CPU，112G NVME/SSD空间，如果P1P2在一台机器上完成需要165G  
+1个P2需要79G内存，可以不占用CPU，6.3G显存，165G NVME/SSD  
+1个C2需要69G内存，部分时段全部CPU核心，8.4G显存，不占用硬盘空间。  
+注意：如果P1 ，P2 不在一台机器上，P2机器需要GET P1数据到P2 机器  
+C2不会到P2 机器上get数据。  
+NVME硬盘空间占用：1个扇区全流程预留：
+~~~
+unsealed 16G*1  
+sealed   16G*1  
+cache/tree-d      32G*1=32G  
+cache/data-layer  16G*5=80G  
+cache/tree-c      16G*4=64G  
+cache/tree-r-last 4.6G*4=18.4G
+total:16+16+32+80+64+18.4=226.4G
+~~~
+bench参考：3800X+128+2080ti 11G+SATA 8T
 
-
-      cache/tree-d      32G*1=32G
-      
-      
-      cache/data-layer  16G*5=80G
-      
-      
-      cache/tree-c      16G*4=64G
-      
-      
-      cache/tree-r-last 4.6G*4=18.4G
-      
-      
-      total:16+16+32+80+64+18.4=226.4G
-      
-         
-    bench参考：3800X+128+2080ti 11G+SATA 8T
-      
-      
-      |  资源名称   | P1 | P2 | C2 |
-      |  ----  | ----  |----  | ----  |  
-      |内存消耗	| 33G	| 79G	| 69G |
-      |显存消耗	| 0G	| 6.3G |	8.4G |
-      | 用时	|4h40m | 20m58s| 	22m23s|
+|  资源名称   | P1 | P2 | C2 |
+|  ----  | ----  |----  | ----  |  
+|内存消耗	| 33G	| 79G	| 69G |
+|显存消耗	| 0G	| 6.3G |	8.4G |
+| 用时	|4h40m | 20m58s| 	22m23s|
    
    
 ## 二、部署篇
@@ -136,12 +108,12 @@
 
 `lotus sync status` 查看同步状态一次
 
-1.2如何查看和本节点互联的Peers
+1.2 如何查看和本节点互联的Peers
 ~~~bash
 lotus net peers
 ~~~
 
-1.3如何主动连接其他peer
+1.3 如何主动连接其他peer
 
 `lotus net connect <peer>`  
 
@@ -150,19 +122,17 @@ peer格式参考：
 
 /ip4/58.144.223.197/tcp/46121/12D3KooWSud8NV8LDTi2HD32CLVrN8um57YyCSDxYFyZ58XBwu8X
 
-
-
-1.4如何查看本地内存池是否拥塞？
+1.4 如何查看本地内存池是否拥塞？
 ~~~bash
 lotus mpool pending --local 
 ~~~
 
-1.5如何查看自己的节点是否分叉？
+1.5 如何查看自己的节点是否分叉？
 
 执行`lotus chain  list` 检查最后几行的消息是否和浏览器，及其他大多数节点一致。
 
 
-1.6如何导入节点快照
+1.6 如何导入节点快照
 
 
   lotus daemon --import-snapshot=chain-xxx.car 或 lotus daemon --import-chain=指定文件
@@ -170,7 +140,12 @@ lotus mpool pending --local
   
   https://docs.file.cash/snapshots/
   
-  
+1.7 节点分叉后如何恢复  
+回到指定高度：
+~~~bash
+lotus chain sethead --epoch <head>
+~~~
+再重启lotus ，查看同步情况。
 ### 2.钱包维护
 
 
