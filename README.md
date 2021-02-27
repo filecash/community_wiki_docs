@@ -132,20 +132,59 @@ lotus mpool pending --local
 执行`lotus chain  list` 检查最后几行的消息是否和浏览器，及其他大多数节点一致。
 
 
-1.6 如何导入节点快照
+1.6 如何导入节点快照快速同步Lotus
 
 
-  lotus daemon --import-snapshot=chain-xxx.car 或 lotus daemon --import-chain=指定文件
-  
-  
-  https://docs.file.cash/snapshots/
-  
+  1.6.1 备份钱包秘钥
+
+   
+      lotus wallet export fxxxx
+      
+      
+  1.6.2 关闭lotus进程
+
+
+      lotus daemon stop (或直接Kill -9 lotus)
+      
+      
+  1.6.3 备份lotus目录以备不时之需
+
+
+      mv ~/.lotus ~/.lotus.bak (这是默认目录，根据情况修改）
+      
+    
+  1.6.4 下载最新快照（每天凌晨两点更新）
+
+
+      get https://snapshot.file.cash/fic-snapshot-latest.car 
+ 
+      备用地址： 
+              
+      wget http://118.123.241.59/fic-snapshot-latest.car 
+      
+      
+   1.6.5 导入快照
+
+
+      lotus daemon --import-snapshot fic-snapshot-latest.car
+      
+      
+   1.6.6 完成1.6.5后关闭lotus并重启lotus
+
+
+         pkill -9 lotus 
+                  
+         lotus daemon
+
+    
 1.7 节点分叉后如何恢复  
-回到指定高度：
-~~~bash
-lotus chain sethead --epoch <head>
-~~~
-再重启lotus ，查看同步情况。
+
+
+   回到指定高度：
+   ~~~bash
+   lotus chain sethead --epoch <head>
+   ~~~
+   再重启lotus ，查看同步情况。
 ### 2.钱包维护
 
 
