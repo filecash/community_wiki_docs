@@ -132,28 +132,28 @@ lotus mpool pending --local
 执行`lotus chain  list` 检查最后几行的消息是否和浏览器，及其他大多数节点一致。
 
 
-1.6 如何导入节点快照快速同步Lotus
+### 1.6 如何导入节点快照快速同步Lotus
 
 
-  1.6.1备份钱包秘钥
+  #### 1.6.1备份钱包秘钥
 
    
       lotus wallet export fxxxx
       
       
-  1.6.2关闭lotus进程
+  #### 1.6.2关闭lotus进程
 
 
       lotus daemon stop (或直接Kill -9 lotus)
       
       
-  1.6.3备份lotus目录以备不时之需
+  #### 1.6.3备份lotus目录以备不时之需
 
 
       mv ~/.lotus ~/.lotus.bak (这是默认目录，根据情况修改）
       
     
-  1.6.4下载最新快照（每天凌晨两点更新）
+  #### 1.6.4下载最新快照（每天凌晨两点更新）
 
 
       get https://snapshot.file.cash/fic-snapshot-latest.car 
@@ -163,13 +163,13 @@ lotus mpool pending --local
       wget http://118.123.241.59/fic-snapshot-latest.car 
       
       
-   1.6.5导入快照
+   #### 1.6.5导入快照
 
 
       lotus daemon --import-snapshot fic-snapshot-latest.car
       
       
-   1.6.6完成1.6.5后关闭lotus并重启lotus
+   #### 1.6.6完成1.6.5后关闭lotus并重启lotus
 
 
          pkill -9 lotus 
