@@ -306,6 +306,37 @@ lotus wallet delete <钱包地址> #实际这钱包是一直存在，只是从�
    每个partetion的每个deadline里面的扇区一起提交一次。完成后又开始下一个窗口，一直轮巡。
    
    
+ 3.13 给矿工添加独立window post账号
+ 
+ 
+ 由于IPFS网络TPS问题，在网络消息拥堵的情况下，容易因为消息拥塞引起掉算力
+ 
+ 
+ 为此，我们单独给miner增加一个window post 钱包地址，步骤如下：
+ 
+  新建一个bls钱包地址： lotus wallet new bls
+  
+  
+  往这个钱包里存入 10-100个 FIC： lotus send fxxx 100
+  
+  
+  给Miner设置windowpost专用地址：
+  
+  
+  lotus-miner actor control set --really-do-it 刚才生成钱包地址
+ 
+   
+  等待刚才命令执行消息上链成功后，检查结果：
+  
+  
+  lotus-miner actor control list
+  
+  
+      name       ID      key           use    balance                      
+      owner      f02910  f3u5qh65v...  other  3046.247008689520468129 FIC  
+      worker     f02910  f3u5qh65v...  other  3046.247008689520468129 FIC  
+      control-0  f03021  f3rqimboi...  post   99.99122158945087101 FIC     
+   
    
 ### 4. Filecash运维中哪些坑不能踩
 
