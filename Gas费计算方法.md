@@ -34,10 +34,11 @@ BaseFee GasPremium 和 GasFeeCap 分别是三种费率，BaseFee针对基本燃�
 
 ```
   Over = GasLimit-11/10*GasUsed 
-  GasLimit/GasUsed 
-  超额燃烧费(OverEstimateToBurn) = (GasLimit - GasUsed)*Over/GasUsed*BaseFee
+  当 GasLimit/GasUsed < 1.1 时, 超额燃烧费(OverEstimateToBurn) = (GasLimit-GasUsed)*BaseFee
+  当 1.1 ≤ GasLimit/GasUsed ≤ 2.1 时, 超额燃烧费(OverEstimateToBurn) = (GasLimit - GasUsed)*Over/GasUsed*BaseFee
+  当 GasLimit/GasUsed > 2.1 时, 超额燃烧费(OverEstimateToBurn) = (GasLimit-GasUsed)*BaseFee
 
-  燃烧费 = 基本燃烧费(BaseToBurn) + 超额燃烧费(OverEstimateToBurn)
+  燃烧费(BurnFee) = 基本燃烧费(BaseToBurn) + 超额燃烧费(OverEstimateToBurn)
 ```
 
 
@@ -62,14 +63,18 @@ Over Estimation Burn:   0.094272733 NanoFIC
 Miner Tip:           5294.782856376 NanoFIC
 
 ```
-  BaseFee: 100
+  BaseFee: 100 AttoFIC
+  GasUsed: 42466015 GasUnit
+  GasLimit: 51263316 AttoFIC/GasUnit
+  GasPremium: 103286 AttoFIC
   
   小费(MinerFee) = GasLimit * GasPremium = 51263316*103286 attoFIC = 5294.782856376 NanoFIC
   
   基本燃烧费(BaseToBurn) = BaseFee * GasUsed = 100*42466015 attoFIC = 4.2466015 NanoFIC
   
-  Over = GasLimit-11/10*GasUsed = 51263316-11/10*42466015= 4550699.5
+  Over = GasLimit-11/10*GasUsed = 51263316-11/10*42466015 = 4550699.5
   GasLimit/GasUsed = 51263316/42466015 = 1.207160973310
+  因为 1.1 < 1.207160973310 < 2.1, 
   超额燃烧费(OverEstimateToBurn)=(GasLimit - GasUsed)*Over/GasUsed*BaseFee = (51263316-42466015)*4550699.5/42466015*100 = 0.09427273376616 NanoFIC
 
   燃烧费(BurnFee) = 基本燃烧费(BaseToBurn) + 超额燃烧费(OverEstimateToBurn) = 4.2466015 + 0.094272733 = 4.34087423376616 NanoFIC = 4.340874233 NanoFIC
