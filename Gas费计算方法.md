@@ -49,6 +49,7 @@ BaseFee GasPremium 和 GasFeeCap 分别是三种费率，BaseFee针对基本燃�
 Message CID: [bafy2bzacecrui7vx6por454atwr4cdide5bh3qpcfctzbpqpexs574n5kye7u](https://fic.filscout.io/zh/pc/message/bafy2bzacecrui7vx6por454atwr4cdide5bh3qpcfctzbpqpexs574n5kye7u)
 
 可得如下信息：
+```
 | 发送方 | 接收方| 数值 | 账户类型 |
 | :----: | :----: | :----: | :----: |
 | f3vebq...v2zynq | f02266 | 5,294.782856376 NanoFIC | fee |
@@ -63,7 +64,8 @@ Burn Fee:               4.340874233 NanoFIC
 Base Fee Burn:          4.2466015 NanoFIC
 Over Estimation Burn:   0.094272733 NanoFIC
 Miner Tip:           5294.782856376 NanoFIC
-
+```
+计算如下：
 ```
   BaseFee: 100 AttoFIC
   GasUsed: 42466015 GasUnit
