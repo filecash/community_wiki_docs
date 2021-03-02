@@ -44,18 +44,12 @@ BaseFee GasPremium 和 GasFeeCap 分别是三种费率，BaseFee针对基本燃�
 ```
 
 
-## 案例
+## 4.案例
 
 Message CID: [bafy2bzacecrui7vx6por454atwr4cdide5bh3qpcfctzbpqpexs574n5kye7u](https://fic.filscout.io/zh/pc/message/bafy2bzacecrui7vx6por454atwr4cdide5bh3qpcfctzbpqpexs574n5kye7u)
 
 可得如下信息：
 ```
-| 发送方 | 接收方| 数值 | 账户类型 |
-| :----: | :----: | :----: | :----: |
-| f3vebq...v2zynq | f02266 | 5,294.782856376 NanoFIC | fee |
-| f3vebq...v2zynq | f02573 | 0.109369655 FIC | receive |
-| f02573 | f099 | 4.3408742337 NanoFIC | burn |
-
 Gas Fee:(GasUsed)       42466015 GasUnit
 Gas Limit:              51263316 AttoFIC/GasUnit
 Gas Premium:            103286 AttoFIC
@@ -65,21 +59,31 @@ Base Fee Burn:          4.2466015 NanoFIC
 Over Estimation Burn:   0.094272733 NanoFIC
 Miner Tip:           5294.782856376 NanoFIC
 ```
-计算如下：
+整理可得参数：
 ```
   BaseFee: 100 AttoFIC
   GasUsed: 42466015 GasUnit
   GasLimit: 51263316 AttoFIC/GasUnit
   GasPremium: 103286 AttoFIC
-  
-  小费(MinerFee) = GasLimit * GasPremium = 51263316*103286 attoFIC = 5294.782856376 NanoFIC
-  
-  基本燃烧费(BaseToBurn) = BaseFee * GasUsed = 100*42466015 attoFIC = 4.2466015 NanoFIC
-  
-  Over = GasLimit-11/10*GasUsed = 51263316-11/10*42466015 = 4550699.5
-  GasLimit/GasUsed = 51263316/42466015 = 1.207160973310
-  因为 1.1 < 1.207160973310 < 2.1, 
-  超额燃烧费(OverEstimateToBurn)=(GasLimit - GasUsed)*Over/GasUsed*BaseFee = (51263316-42466015)*4550699.5/42466015*100 = 0.09427273376616 NanoFIC
-
-  燃烧费(BurnFee) = 基本燃烧费(BaseToBurn) + 超额燃烧费(OverEstimateToBurn) = 4.2466015 + 0.094272733 = 4.34087423376616 NanoFIC = 4.340874233 NanoFIC
 ```
+Gas费计算如下：
+```
+  1.小费(MinerFee) = GasLimit * GasPremium = 51263316*103286 attoFIC = 5294.782856376 NanoFIC
+  
+  2.基本燃烧费(BaseToBurn) = BaseFee * GasUsed = 100*42466015 attoFIC = 4.2466015 NanoFIC
+  
+    Over = GasLimit-11/10*GasUsed = 51263316-11/10*42466015 = 4550699.5
+    GasLimit/GasUsed = 51263316/42466015 = 1.207160973310
+    因为 1.1 < 1.207160973310 < 2.1, 
+  3.超额燃烧费(OverEstimateToBurn)=(GasLimit - GasUsed)*Over/GasUsed*BaseFee = (51263316-42466015)*4550699.5/42466015*100 = 0.09427273376616 NanoFIC
+
+  4.燃烧费(BurnFee) = 基本燃烧费(BaseToBurn) + 超额燃烧费(OverEstimateToBurn) = 4.2466015 + 0.094272733 = 4.34087423376616 NanoFIC = 4.340874233 NanoFIC
+```
+计算结果与浏览器提供数据对比验证，完全正确。
+
+| 发送方 | 接收方| 数值 | 账户类型 |
+| :----: | :----: | :----: | :----: |
+| f3vebq...v2zynq | f02266 | 5,294.782856376 NanoFIC | fee |
+| f3vebq...v2zynq | f02573 | 0.109369655 FIC | receive |
+| f02573 | f099 | 4.3408742337 NanoFIC | burn |
+
