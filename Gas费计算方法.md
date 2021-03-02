@@ -4,11 +4,13 @@
 
 ## 1.小费(MinerFee):
 
-  当 BaseFee + GasPremium > GasFeeCap, MinerFee = GasLimit * (GasFeeCap - BaseFee) 
-  当 BaseFee + GasPremium ≤ GasFeeCap, MinerFee = GasLimit * GasPremium 
+- 当 BaseFee + GasPremium > GasFeeCap, MinerFee = GasLimit * (GasFeeCap - BaseFee) 
+- 当 BaseFee + GasPremium ≤ GasFeeCap, MinerFee = GasLimit * GasPremium 
 
 BaseFee GasPremium 和 GasFeeCap 分别是三种费率，BaseFee针对基本燃烧费，GasPremium针对小费费率，GasFeeCap针对总的支付费率。
+
 官方对小费设定了一个参数，主要是为了让GasFeeCap与两者的关系 BaseFee + GasPremium ，尽可能地支付更少的小费。
+
 目前按市场上的消息小费都是 BaseFee + GasPremium ≤ GasFeeCap, 即是 MinerFee = GasLimit * GasPremium 
 ```
   小费(MinerFee) = GasLimit * GasPremium 
@@ -26,9 +28,9 @@ BaseFee GasPremium 和 GasFeeCap 分别是三种费率，BaseFee针对基本燃�
 对于超额燃烧费主要是为了避免使用过高的Gas费，为gas设定了一个指标Over，其中 Over = GasLimit-11/10*GasUsed
 
 计算 GasLimit/GasUsed 值, 
-当 Over < 0 时, GasLimit/GasUsed < 1.1, 计算公式为: OverEstimateToBurn = (GasLimit-GasUsed)*BaseFee
-当 Over > GasUsed 时, GasLimit/GasUsed > 2.1, Over=GasUsed, 计算公式为: OverEstimateToBurn = ((GasLimit-GasUsed)*over)/GasUsed*BaseFee = (GasLimit-GasUsed)*BaseFee
-当 0 ≤ Over ≦ GasUsed 时, 1.1 ≤ GasLimit/GasUsed ≤ 2.1, 计算公式为: OverEstimateToBurn = ((GasLimit-GasUsed)*over)/GasUsed*BaseFee
+- 当 Over < 0 时, GasLimit/GasUsed < 1.1, 计算公式为: OverEstimateToBurn = (GasLimit-GasUsed)*BaseFee
+- 当 Over > GasUsed 时, GasLimit/GasUsed > 2.1, Over=GasUsed, 计算公式为: OverEstimateToBurn = ((GasLimit-GasUsed)*over)/GasUsed*BaseFee = (GasLimit-GasUsed)*BaseFee
+- 当 0 ≤ Over ≦ GasUsed 时, 1.1 ≤ GasLimit/GasUsed ≤ 2.1, 计算公式为: OverEstimateToBurn = ((GasLimit-GasUsed)*over)/GasUsed*BaseFee
 
 由上可知 1.1 ≤ GasLimit/GasUsed ≤ 2.1 较为合理，即是 1.1-2.1 倍较为合理，此时 OverEstimateToBurn = ((GasLimit-GasUsed)*over)/GasUsed*BaseFee 
 
