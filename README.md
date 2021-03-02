@@ -309,7 +309,7 @@ lotus wallet delete <钱包地址> #实际这钱包是一直存在，只是从�
  3.13 给矿工添加独立window post账号
  
  
- 由于IPFS网络TPS问题，在网络消息拥堵的情况下，容易因为消息拥塞引起掉算力
+ 由于IPFS网络TPS问题，在网络消息拥堵或钱包账户余额不足，容易造成window post失败。
  
  
  为此，我们单独给miner增加一个window post 钱包地址，步骤如下：
@@ -333,10 +333,12 @@ lotus wallet delete <钱包地址> #实际这钱包是一直存在，只是从�
   
   
       name       ID      key           use    balance                      
-      owner      f02910  f3u5qh65v...  other  3046.247008689520468129 FIC  
-      worker     f02910  f3u5qh65v...  other  3046.247008689520468129 FIC  
-      control-0  f03021  f3rqimboi...  post   99.99122158945087101 FIC     
+      owner      f029xx  f3u5qh65v...  other  3046.247008689520468129 FIC  
+      worker     f029xx  f3u5qh65v...  other  3046.247008689520468129 FIC  
+      control-0  f030xx  f3rqimboi...  post   99.99122158945087101 FIC     
    
+   
+  设置成功后window post 将从新设置地址扣费，window post 消息以这个地址发出。 
    
 ### 4. Filecash运维中哪些坑不能踩
 
