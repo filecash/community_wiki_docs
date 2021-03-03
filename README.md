@@ -172,12 +172,81 @@ lotus mpool pending --local
     
 ### 1.7 节点分叉后如何恢复  
 
-   回到指定高度：
+   回到确认未分叉的最近指定高度：
    ~~~bash
    lotus chain sethead --epoch <head>
    ~~~
    再重启lotus ，查看同步情况。
-### 2.钱包维护
+   
+   
+### 1.8 Filecash 如何增加扇区存储路径？
+
+   
+   设置数据存储路径，该路径用来存储最终密封好的数据
+   
+   
+   注意！！！，密封完成之后该路径下的数据会被自动清空！！！
+
+   
+   lotus-miner storage attach --store --init /storage/f01234
+   
+   
+   miner当做worker的时候，增加seal目录
+   
+   
+  lotus-miner storage attach --seal --init /filecash/seal
+  
+  
+  以上两个命令都是在启动了 miner 之后才可以执行，是一种动态添加存储路径的方式，非常灵活。 
+  
+  
+  当然还可以通过--weight设置权重，默认权重是10，数值越大越优先。
+  
+  
+  执行该命令后，可通过以下命令查看存储列表:
+
+
+   lotus-miner storage list
+   
+
+### 1.9 如何修改Filecash存储路径？
+
+
+   默认的存储目录 ~/.lotusminer 可以移动到其他地方。 
+   
+   
+   先停掉 daemon 和 miner。 
+   
+   
+   移动后新路径为 /storage/f01234，需要手动更改/storage/f01234目录下
+   
+   
+   storage.json 中的 StoragePaths 为新路径：
+   
+   
+      {
+       
+        "StoragePaths": [ 
+        
+          { 
+          
+            "Path": "/storage/f01234" 
+            
+          } 
+          
+        ] 
+        
+      } 
+      
+      
+    注意区分lotusminer目录和密封好扇区存储路径的关系区别。     
+    
+    lotusminer目录由LOTSU_MINER_PATH环境变量指定。     
+    
+    而密封好扇区存储路径由lotusminer下storage.json中设置。
+    
+    
+## 2.钱包维护
 
 ### 2.1 如何创建钱包
 
