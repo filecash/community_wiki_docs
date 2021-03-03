@@ -184,11 +184,11 @@ lotus mpool pending --local
    
    设置数据存储路径，该路径用来存储最终密封好的数据
    
-   
-   注意！！！，密封完成之后该路径下的数据会被自动清空！！！
-
-   
+     
    lotus-miner storage attach --store --init /storage/f01234
+   
+   
+   ！！！带--init参数执行命令后该路径下的数据会被自动清空！！！
    
    
    miner当做worker的时候，增加seal目录
