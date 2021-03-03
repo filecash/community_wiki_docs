@@ -85,6 +85,15 @@ bench参考：3800X+128+2080ti 11G+SATA 8T
 | 内存消耗 | 33G | 79G | 69G |
 | 显存消耗 | 0G	| 6.3G |	8.4G |
 | 用时 | 4h40m | 20m58s| 22m23s|
+
+
+### 10. 如何参与Filecash挖矿？
+
+
+   参与Filecash挖矿，参考：
+   
+   
+   https://github.com/filecash/lotus/wiki/1.%E5%A6%82%E4%BD%95%E5%8F%82%E4%B8%8Efilecash%E6%8C%96%E7%9F%BF
    
    
 ## 二、部署篇
