@@ -1,9 +1,9 @@
 # to do list:
-- 1.FilecashFAQ (OK)
-- 2.Gas计算 (OK)
-- 3.惩罚逻辑 (  )
-- 4. 如何搭建集群挖矿
-- 5. 如何设置lotus和miner在不同机器
+1. FilecashFAQ (OK)
+2. Gas计算 (OK)
+3. 惩罚逻辑 (  )
+4. 如何搭建集群挖矿
+5. 如何设置lotus和miner在不同机器
 
 
 # Filecash FAQ \[Filecash常见问题回答\]
