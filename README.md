@@ -4,6 +4,7 @@
 3. 惩罚逻辑 (  )
 4. 如何搭建集群挖矿
 5. 如何设置lotus和miner在不同机器
+6. filecash v1.2.2 新功能使用方法
 
 
 # Filecash FAQ \[Filecash常见问题回答\]
