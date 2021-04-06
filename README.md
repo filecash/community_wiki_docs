@@ -448,10 +448,80 @@ lotus wallet delete <钱包地址> #实际这钱包是一直存在，只是从�
    
    
       扇区验证失败，不爆块等问题。
-   
-   
-   
+ ### 5. Lotus常用环境变量使用说明
+5.1. 通用环境变量
 
+FIL_PROOFS_PARAMETER_CACHE：proof 证明参数路径，
 
-    
-    
+默认在/var/tmp/filecoin-proof-parameters下，建议自己指定。
+
+FFI_BUILD_FROM_SOURCE：从源码编译底层库。
+
+export FFI_BUILD_FROM_SOURCE=1
+
+IPFS_GATEWAY：配置证明参数下载的代理地址。
+
+export IPFS_GATEWAY=export IPFS_GATEWAY="http://proofs.file.cash:8080/ipfs/"
+
+TMPDIR：临时文件夹路径，用于存放显卡锁定文件。
+
+export TMPDIR=/home/user/nvme_disk/tmp
+
+RUST_LOG：配置Rust日志级别，可设置All,Info,Debug等。
+
+export RUST_LOG=Debug 
+
+GOPROXY：配置Golang代理。
+export GOPROXY=https://goproxy.cn
+
+5.2. Lotus Deamon环境变量
+
+LOTUS_PATH：lotus daemon 路径，例如：
+
+export LOTUS_PATH=/filecash/lotus
+
+5.3. Lotus Miner环境变量
+
+LOTUS_MINER_PATH：lotus miner 路径，例如：
+
+export LOTUS_MINER_PATH=/filecash/lotusminer
+
+FULLNODE_API_INFO：lotus daemon API 环境变量；
+
+获取API命令（lotus-miner auth api-info --perm admin）
+
+export FULLNODE_API_INFO=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJyZWFkIiwid3JpdGUiLCJzaWduIiwiYWRtaW4iXX0.JSdq-OviNQW2dZslvyargJsqgLrlYCjoZCIFkb2u96g:/ip4/192.168.1.10/tcp/1234/http
+
+BELLMAN_CUSTOM_GPU：指定GPU型号;如果已支持不需要手工设置。
+
+export BELLMAN_CUSTOM_GPU="GeForce RTX 2080 Ti:4352"
+
+5.4. Lotus Worker环境变量
+
+LOTUS_WORKER_PATH：Lotus worker 路径；
+
+export LOTUS_WORKER_PATH=/filecash/lotusworker
+
+FIL_PROOFS_MAXIMIZE_CACHING：最大化内存参数；
+
+export FIL_PROOFS_MAXIMIZE_CACHING=1
+
+FIL_PROOFS_USE_MULTICORE_SDR：CPU多核心绑定；
+
+export FIL_PROOFS_USE_MULTICORE_SDR=1
+
+FIL_PROOFS_USE_GPU_TREE_BUILDER：使用GPU计算Precommit2 TREE hash
+
+export FIL_PROOFS_USE_GPU_TREE_BUILDER=1
+
+FIL_PROOFS_USE_GPU_COLUMN_BUILDER：使用GUP计算Precommit2 COLUMN hash；
+
+export FIL_PROOFS_USE_GPU_COLUMN_BUILDER=1
+
+BELLMAN_NO_GPU：不使用GPU计算Commit2；
+
+如果要启用 GPU，则不能让这个环境变量（BELLMAN_NO_GPU）出现在系统的环境变量中（env）;
+
+如果它出现在 env 中，则需要使用unset BELLMAN_NO_GPU命令取消，因为设置 export BELLMAN_NO_GPU=0 无效；
+
+export BELLMAN_NO_GPU=1
