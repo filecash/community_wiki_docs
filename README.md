@@ -366,6 +366,7 @@ lotus-miner sectors remove <SectorId>
 lotus-worker tasks disable [command options] [UNS|C2|PC2|PC1|AP]
 ```
 禁用所有任务，等worker执行完当前任务，就没有任何封装任务了，本操作执行完再通过
+注意：执行lotus-worker tasks 命令是，如果报错，需要指定MINER_API_INFO 和 --worker-repo
 ```sh
 lotus-worker tasks enable [command options] [UNS|C2|PC2|PC1|AP]
 ```
