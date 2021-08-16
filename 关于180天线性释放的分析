@@ -1,0 +1,224 @@
+
+# 关于180天线性释放的分析
+
+## 结论：180天线性释放是一天释放两次，即1440个块高度释放一次。
+
+这里的AwardBlockReward是每一个块高度进行同步的时候 都会进行 调用的 ，从这里开始进行了锁仓以及180天线性释放的智能合约的行为
+```
+func (sm *StateManager) ApplyBlocks(...)
+for _, b := range bms {
+ ......
+ rwMsg := &types.Message{
+ From: builtin.SystemActorAddr,
+ To: reward.Address,
+ Nonce: uint64(epoch),
+ Value: types.NewInt(0),
+ GasFeeCap: types.NewInt(0),
+ GasPremium: types.NewInt(0),
+ GasLimit: 1 << 30,
+ Method: reward.Methods.AwardBlockReward,
+ Params: params,
+ } 
+}
+```
+
+下面进入智能合约中进行跳转：
+```
+func (a Actor) AwardBlockReward(rt runtime.Runtime, params *AwardBlockRewardParams) *abi.EmptyValu
+  rt.StateTransaction(&st, func() {
+      blockReward := big.Mul(st.ThisEpochReward, big.NewInt(params.WinCount))
+      blockReward = big.Div(blockReward, big.NewInt(builtin.ExpectedLeadersPerEpoch))
+      totalReward = big.Add(blockReward, params.GasReward)
+      currBalance := rt.CurrentBalance()
+      if totalReward.GreaterThan(currBalance) {
+          rt.Log(rtt.WARN, "reward actor balance %d below totalReward expected %d, paying out rest o
+          totalReward = currBalance
+          blockReward = big.Sub(totalReward, params.GasReward)
+          // Since we have already asserted the balance is greater than gas reward blockReward is >=
+          AssertMsg(blockReward.GreaterThanEqual(big.Zero()), "programming error, block reward is %v
+      }
+      st.TotalMined = big.Add(st.TotalMined, blockReward)
+  })
+  ...
+  code := rt.Send(minerAddr, builtin.MethodsMiner.ApplyRewards, &rewardParams, totalReward, &buil
+}
+```
+
+
+由奖励释放公式得出该条消息的奖励金额 计算如下
+```
+
+```
+
+然后跳转至ApplyRewards，ApplyRewards 调用 LockedRewardFromReward 对奖励进行分配
+```
+func (a Actor) ApplyRewards(rt Runtime, params *builtin.ApplyRewardParams) *abi.EmptyValue {
+ ...
+ rewardToLock, lockedRewardVestingSpec := LockedRewardFromReward(params.Reward, nv)
+ ...
+ rt.StateTransaction(&st, func() {
+ ...
+ newlyVested, err := st.AddLockedFunds(store, rt.CurrEpoch(), rewardToLock, lockedRewardVestingSp
+ ...
+ })
+ ...
+
+```}
+
+25%立即释放，75%锁仓线性释放
+```
+func LockedRewardFromReward(reward abi.TokenAmount, nv network.Version) (abi.TokenAmount, *VestSpe
+ lockAmount := reward
+ spec := &RewardVestingSpec
+if nv >= network.Version6 {
+ // Locked amount is 75% of award.
+ lockAmount = big.Div(big.Mul(reward, LockedRewardFactorNumV6), LockedRewardFactorDenomV6)
+ }
+return lockAmount, spec
+}
+```
+
+这里的rewardToLock就是即将要被锁仓的75%的爆快奖励 AddLockedFunds 就是下一步真正锁仓的逻辑
+
+然后由send函数转至奖励锁仓的AddLockedFunds	由于释放和锁仓是同一函 数进行 所以该方法是重点
+func (a Actor) ApplyRewards(rt Runtime, params *builtin.ApplyRewardParams) *abi.EmptyValue {
+ ...
+ rewardToLock, lockedRewardVestingSpec := LockedRewardFromReward(params.Reward, nv)
+ ...
+ rt.StateTransaction(&st, func() {
+ ...
+ newlyVested, err := st.AddLockedFunds(store, rt.CurrEpoch(), rewardToLock, lockedRewardVestingSp
+ ...
+ })
+ ...
+}
+func (st *State) AddLockedFunds(store adt.Store, currEpoch abi.ChainEpoch, vestingSum abi.TokenAmo
+ AssertMsg(vestingSum.GreaterThanEqual(big.Zero()), "negative vesting sum %s", vestingSum)
+ vestingFunds, err := st.LoadVestingFunds(store)
+if err != nil {
+ return big.Zero(), xerrors.Errorf("failed to load vesting funds: %w", err)
+ }
+// unlock vested funds first
+ amountUnlocked := vestingFunds.unlockVestedFunds(currEpoch)
+ st.LockedFunds = big.Sub(st.LockedFunds, amountUnlocked)
+ Assert(st.LockedFunds.GreaterThanEqual(big.Zero()))
+// add locked funds now
+ vestingFunds.addLockedFunds(currEpoch, vestingSum, st.ProvingPeriodStart, spec)
+ st.LockedFunds = big.Add(st.LockedFunds, vestingSum)
+// save the updated vesting table state
+if err := st.SaveVestingFunds(store, vestingFunds); err != nil {
+ return big.Zero(), xerrors.Errorf("failed to save vesting funds: %w", err)
+ }
+return amountUnlocked, nil
+}
+
+unlockVestedFunds是每半天 也就是1440个块高度解锁 addLockedFunds就是固定块高 也就是
+将一份%75的抵押均分成180*2份 每天释放两个特定块高的地方
+
+
+先看锁仓
+func (v *VestingFunds) addLockedFunds(currEpoch abi.ChainEpoch, vestingSum abi.TokenAmount,
+ provingPeriodStart abi.ChainEpoch, spec *VestSpec) {
+// maps the epochs in VestingFunds to their indices in the slice
+奖励 和 块高 绑定
+ epochToIndex := make(map[abi.ChainEpoch]int, len(v.Funds))
+for i, vf := range v.Funds {
+ epochToIndex[vf.Epoch] = i
+ }
+// Quantization is aligned with when regular cron will be invoked, in the last epoch of deadlines
+就是1440的区块高度的时候进行释放 块奖励
+ InitialDelay 应该是0 这个跟版本有关 奖励释放以前延迟20天 现在不延迟了
+ vestBegin := currEpoch + spec.InitialDelay // Nothing unlocks here, this is just the start of the
+ vestPeriod := big.NewInt(int64(spec.VestPeriod))
+ vestedSoFar := big.Zero()
+for e := vestBegin + spec.StepDuration; vestedSoFar.LessThan(vestingSum); e += spec.StepDuration 
+ //Quantization 是1440
+ 这里的计算才是真正的释放高度 第三个参数 是大周期的开始
+ vestEpoch := quantizeUp(e, spec.Quantization, provingPeriodStart)
+ elapsed := vestEpoch - vestBegin
+ targetVest := big.Zero() //nolint:ineffassign
+ //180 * 2880个块高度
+ if elapsed < spec.VestPeriod {
+ 线性释放 180份均分
+ // Linear vesting, PARAM_FINISH
+ targetVest = big.Div(big.Mul(vestingSum, big.NewInt(int64(elapsed))), vestPeriod)
+ } else {
+ targetVest = vestingSum
+ }
+ vestThisTime := big.Sub(targetVest, vestedSoFar)
+ vestedSoFar = targetVest
+// epoch already exists. Load existing entry
+ // and update amount.
+ 这里是释放高度给真正的计算进去了
+ 进来这里表示这个块高度已经设置过奖励了
+ if index, ok := epochToIndex[vestEpoch]; ok {
+ currentAmt := v.Funds[index].Amount
+ //追加一笔这个块高度的奖励
+ v.Funds[index].Amount = big.Add(currentAmt, vestThisTime)
+ } else {
+ // append a new entry -> slice will be sorted by epoch later.
+ //这里才是真正的新的块高度的奖励的绑定 之前的老的
+ entry := VestingFund{Epoch: vestEpoch, Amount: vestThisTime}
+ v.Funds = append(v.Funds, entry)
+ epochToIndex[vestEpoch] = len(v.Funds) - 1
+ }
+ }
+// sort slice by epoch
+按照块高度进行奖励数组的升序排列
+ sort.Slice(v.Funds, func(first, second int) bool {
+ return v.Funds[first].Epoch < v.Funds[second].Epoch
+ })
+}
+
+
+通过分析可以得出 180天的线性释放 是瞬间就计算好了的
+然后进行释放的分析
+但是之后被确认绑定的 1440为轮次的块高会被拿走奖励 其他时候没有奖励可以拿
+func (v *VestingFunds) unlockVestedFunds(currEpoch abi.ChainEpoch) abi.TokenAmount {
+ amountUnlocked := abi.NewTokenAmount(0)
+ lastIndexToRemove := -1
+for i, vf := range v.Funds {
+ if vf.Epoch >= currEpoch {
+ 这里有break 所以之后特定的时间才会真正的返还锁仓奖励的币
+ 那就是说 只要当前高度比这些安排高度高 基本是收割的
+ 然而每个高度都会调用 所以···看上去是for循环 其实也就执行一次罢了···
+ 毕竟后面会把已经领到的奖励都删掉···
+ break
+ }
+ 只有当前块高比安排奖励发放时候大 才能拿到钱啊
+ // epoch already exists. Load existing entry
+ // and update amount.
+ 这里是释放高度给真正的计算进去了
+ 进来这里表示这个块高度已经设置过奖励了
+ if index, ok := epochToIndex[vestEpoch]; ok {
+ currentAmt := v.Funds[index].Amount
+ //追加一笔这个块高度的奖励
+ v.Funds[index].Amount = big.Add(currentAmt, vestThisTime)
+ } else {
+ // append a new entry -> slice will be sorted by epoch later.
+ //这里才是真正的新的块高度的奖励的绑定 之前的老的
+ entry := VestingFund{Epoch: vestEpoch, Amount: vestThisTime}
+ v.Funds = append(v.Funds, entry)
+ epochToIndex[vestEpoch] = len(v.Funds) - 1
+ }
+ }
+// sort slice by epoch
+按照块高度进行奖励数组的升序排列
+ sort.Slice(v.Funds, func(first, second int) bool {
+ return v.Funds[first].Epoch < v.Funds[second].Epoch
+ })
+}
+ amountUnlocked = big.Add(amountUnlocked, vf.Amount)
+ lastIndexToRemove = i
+ }
+// remove all entries upto and including lastIndexToRemove
+if lastIndexToRemove != -1 {
+ 已经领到的奖励就删掉不做下次考虑了
+ v.Funds = v.Funds[lastIndexToRemove+1:]
+ }
+return amountUnlocked
+}
+注意:provingPeriodStart 是指每48个window 即一个大的windowpost的第一个epoch 也就
+是块高度 这个数值是会更新的 那么当它进行更新的时候 1440间隔块高的计算就要发生变
+化 这个数值的更新与handleProvingDeadline这个函数有关 但是这里与180天线性释放关
+系不大 所以暂时先不讲
