@@ -42,8 +42,6 @@
 | BiKi| http://bikil.com/  |   |
 | HOTBIT|https://www.hotbit.pro/  |  [FIC/USDT](https://www.hotbit.pro/exchange?symbol=FILECASH_USDT)|
 | HBTC| https://www.bit-e.com/  | |
-| LBank| https://www.lbank.me |  |
-| bitmart|https://www.bitmart.news/  | [FIC/BTC](https://www.bitmart.news/trade/cn?symbol=FIC_BTC&layout=basic)|
 | HashKeyHub| https://hub.hashkey.com/ | |
 | huobi| 
   
