@@ -158,7 +158,7 @@ lotus mpool pending --local
   #### 1.6.4下载最新快照（每天凌晨两点更新）
 
 
-      get https://snapshot.file.cash/fic-snapshot-latest.car 
+      wget https://snapshot.file.cash/fic-snapshot-latest.car 
  
       备用地址： 
               
