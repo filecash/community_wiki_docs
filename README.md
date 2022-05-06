@@ -57,7 +57,7 @@
 
    Slack: https://join.slack.com/t/filecashworkspace/shared_invite/zt-kca9ippi-pUniHv0K_zzneG9PxMz2Ow
    Telegram: https://t.me/FilecashGlobal
-   
+   Discord: https://discord.gg/ftsKzzhW
    
 ### 9. Filecash 挖矿CPU，内存，GPU显存，硬盘资源消耗情况如何？  
 **16GB扇区：**  
